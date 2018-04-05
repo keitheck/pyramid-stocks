@@ -7,32 +7,32 @@ from pyramid.view import view_config
 
 
 @view_config(route_name='home', renderer='../templates/index.jinja2')
-def my_view(request):
+def home_view(request):
     return {}
 
 
 @view_config(route_name='login', renderer='../templates/login.jinja2')
-def my_view(request):
+def login_view(request):
     return {}
 
 
 @view_config(route_name='portfolio', renderer='../templates/portfolio.jinja2')
-def my_view(request):
+def portfolio_view(request):
     return {}
 
 
-@view_config(route_name='register', renderer='../templates/register.jinja2')
-def my_view(request):
+@view_config(route_name='auth', renderer='../templates/register.jinja2')
+def register_view(request):
     return {}
 
 
 @view_config(route_name='stock-add', renderer='../templates/stock-add.jinja2')
-def my_view(request):
+def stock_add_view(request):
     return {}
 
 
 @view_config(route_name='stock-detail', renderer='../templates/stock-detail.jinja2')
-def my_view(request):
+def stock_detail_view(request):
     return {}
         
 
