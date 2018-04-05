@@ -29,7 +29,7 @@ tests_require = [
 
 setup(
     name='pyramid_stocks',
-    version='0.0',
+    version='0.0.1',
     description='pyramid_stocks',
     long_description=README + '\n\n' + CHANGES,
     classifiers=[
@@ -38,10 +38,10 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
     ],
-    author='',
-    author_email='',
-    url='',
-    keywords='web pyramid pylons',
+    author='Keith Eckert',
+    author_email='eckertkeith@gmail.com',
+    url='https://github.com/keitheck',
+    keywords='web pyramid pylons codefellows python bootcamp',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
