@@ -1,0 +1,3 @@
+[run]
+source = pyramid_stocks
+omit = pyramid_stocks/test*
