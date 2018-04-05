@@ -4,10 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="{{request.static_url('pyramid_stocks:static/base/reset.css')}}">
     <title>Pyramid Stocks</title>
 </head>
 <body>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/portfolio">Portfolio</a></li>
+        <li><a href="/stock-add">Add Stock</a></li>
+        <li><a href="/stock-detail">Detail</a></li>
+        <li><a href="/auth">Sign-up</a></li>
+      </ul>  
+    </nav>
     <div id='login'>
         <button id='login-button'>Login</button>
         <button id='register-button'>Register</button>
