@@ -1,4 +1,42 @@
 
 body {
-	background-color: rgb(209, 233, 255)
+	background-color: rgb(79, 89, 97);
+	color: rgb(255, 255, 255);
+	font-size: 16px;
+	margin: 0px auto;
+	width:80%;
 }
+
+header {
+	background-color: rgb(209, 233, 255);
+	padding: 20px 10px;
+}
+
+h1 {
+	font-size: 2em;
+	color: rgb(18, 72, 116)
+}
+
+h2 {
+	font-size: 1.5em;
+	color: rgb(18, 72, 116)
+}
+
+a {
+    color: rgb(255, 255, 255);
+	text-decoration-line: underline	
+}
+
+nav li {
+	display: inline-block;
+	font-size: 1.2em
+}
+
+#block-content {
+	padding: 40px 20px;
+	text-align: center;
+}
+
+#portfolio_div {
+	display: inline-block
+)}

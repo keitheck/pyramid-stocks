@@ -1,25 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Portfolio</title>
-</head>
-<body>
-    <div id='portfolio_div'>
-        <table>
-            <tr>
-                <th>header 1</th>
-                <th>header 2</th> 
-                <th>header 3</th>
-            </tr>
-            <tr>
-                <td>data 1</td>
-                <td>data 2</td> 
-                <td>data 3</td>
-            </tr>
-        </table>
-    </div> 
-</body>
-</html>
+{% extends "base.jinja2" %}
+
+{% block content %}
+
+<h2>Current Portfolio</h2>
+
+<ul>
+    {% for company in companies %}
+    <li>
+        <h3>NAME: {{company.companyName}}</h3>
+        <p>SYMBOL: {{company.symbol}}</p>
+        <p>EXCHANGE: {{company.exchange}}</p>
+        <p>WEBSITE: {{company.website}}</p>
+        <p>CEO: {{company.CEO}}</p>
+        <p>INDUSTRY: {{company.industry}}</p>
+        <p>SECTOR: {{company.sector}}</p>
+        <p>ISSUE-TYPE: {{company.issueType}}</p>
+        <p>DESCRIPTION: {{company.description}}</p>
+        <p>------------------------------------------</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}

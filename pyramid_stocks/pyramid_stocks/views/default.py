@@ -1,39 +1,65 @@
 from pyramid.response import Response
+from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.view import view_config
-
-# from sqlalchemy.exc import DBAPIError
-
-# from ..models import MyModel
+from ..sample_data import MOCK_DATA
 
 
-@view_config(route_name='home', renderer='../templates/index.jinja2')
+@view_config(
+    route_name='home', 
+    renderer='../templates/base.jinja2',
+    request_method='GET')
 def home_view(request):
     return {}
 
 
-@view_config(route_name='login', renderer='../templates/login.jinja2')
-def login_view(request):
-    return {}
+@view_config(
+    route_name='portfolio', 
+    renderer='../templates/portfolio.jinja2',
+    request_method='GET')
+def portfolio_view(request):   
+        return {
+            'companies': MOCK_DATA
+        }
 
 
-@view_config(route_name='portfolio', renderer='../templates/portfolio.jinja2')
-def portfolio_view(request):
-    return {}
-
-
-@view_config(route_name='auth', renderer='../templates/register.jinja2')
+@view_config(
+    route_name='auth', 
+    renderer='../templates/login.jinja2')
 def register_view(request):
-    return {}
+    if request.method == 'GET':
+        try:
+            username = request.GET['username']
+            password = request.GET['password']
+            print('User: {}, Pass: {}'.format(username, password))
 
+            return HTTPFound(location=request.route_url('portfolio'))
+        
+        except KeyError:
+            return {}
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        print('User {}, Pass {}, email {}'.format(username, password, email))   
+        
+        return HTTPFound(location=request.route_url('portfolio'))
+
+    return HTTPNotFound()
 
 @view_config(route_name='stock-add', renderer='../templates/stock-add.jinja2')
 def stock_add_view(request):
     return {}
 
 
-@view_config(route_name='stock-detail', renderer='../templates/stock-detail.jinja2')
-def stock_detail_view(request):
+@view_config(route_name='detail', renderer='../templates/detail.jinja2')
+def detail_view(request):
     return {}
+
+
+@view_config(route_name='404', renderer='../templates/404.jinja2')
+def stock_404_view(request):
+    return {}    
         
 
 
