@@ -1,9 +1,8 @@
-def test_default_behavior_of_base_route(dummy_request):
-    from ..views.default import home_view
-    from pyramid.response import Response
-
-    request = dummy_request
-    response = home_view(request)
+def test_signin_to_auth_view(dummy_auth_request):
+    from ..views.default import register_view
+    from pyramid.httpexceptions import HTTPFound
+    request = dummy_auth_request
+    request.method = 'GET'
     # import pbd ; pbd.set_trace()
-    assert isinstance(response, Response)
-    assert response.text == 'I did a thing'
+    assert isinstance(response, HTTPFound)
+    assert response.status_code is 302

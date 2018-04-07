@@ -7,17 +7,25 @@
 <ul>
     {% for company in companies %}
     <li>
-        <h3>NAME: {{company.companyName}}</h3>
+        <p>------------------------------------------</p>
+        <p></p>
+        <a href="{{request.route_url('detail',symbol=company.symbol)}}">
         <p>SYMBOL: {{company.symbol}}</p>
-        <p>EXCHANGE: {{company.exchange}}</p>
-        <p>WEBSITE: {{company.website}}</p>
-        <p>CEO: {{company.CEO}}</p>
-        <p>INDUSTRY: {{company.industry}}</p>
-        <p>SECTOR: {{company.sector}}</p>
-        <p>ISSUE-TYPE: {{company.issueType}}</p>
-        <p>DESCRIPTION: {{company.description}}</p>
+        <h3>{{company.companyName}}</h3>
+        <p>click for details about {{company.symbol}}<p>
+        </a>
+        <p></p>
         <p>------------------------------------------</p>
     </li>
     {% endfor %}
 </ul>
 {% endblock content %}
+
+
+        <!-- <p>EXCHANGE: {{company.exchange}}</p>
+        <p>WEBSITE: {{company.website}}</p>
+        <p>CEO: {{company.CEO}}</p>
+        <p>INDUSTRY: {{company.industry}}</p>
+        <p>SECTOR: {{company.sector}}</p>
+        <p>ISSUE-TYPE: {{company.issueType}}</p>
+        <p>DESCRIPTION: {{company.description}}</p> -->

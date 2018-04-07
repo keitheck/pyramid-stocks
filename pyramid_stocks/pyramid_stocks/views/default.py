@@ -2,6 +2,11 @@ from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.view import view_config
 from ..sample_data import MOCK_DATA
+import json
+import requests
+
+
+API_URL = 'https://api.iextrading.com/1.0'
 
 
 @view_config(
@@ -9,6 +14,7 @@ from ..sample_data import MOCK_DATA
     renderer='../templates/base.jinja2',
     request_method='GET')
 def home_view(request):
+    """returns home page"""
     return {}
 
 
@@ -16,9 +22,10 @@ def home_view(request):
     route_name='portfolio', 
     renderer='../templates/portfolio.jinja2',
     request_method='GET')
-def portfolio_view(request):   
-        return {
-            'companies': MOCK_DATA
+def portfolio_view(request):
+    """Returns user portfolio data""" 
+    return {
+        'companies': MOCK_DATA
         }
 
 
@@ -26,6 +33,7 @@ def portfolio_view(request):
     route_name='auth', 
     renderer='../templates/login.jinja2')
 def register_view(request):
+    """GET method supports user sign in and POST method support creation of username and password"""
     if request.method == 'GET':
         try:
             username = request.GET['username']
@@ -47,18 +55,58 @@ def register_view(request):
 
     return HTTPNotFound()
 
+
 @view_config(route_name='stock-add', renderer='../templates/stock-add.jinja2')
 def stock_add_view(request):
-    return {}
+    """Get and Post methods to display requested stock info and selectively add to portfolio"""
+    if request.method == 'GET':
+        try:
+            symbol = request.GET['symbol']
+        
+        except KeyError:
+            return {}
+
+        try:
+            response = requests.get(API_URL + "/stock/{}/company".format(symbol))
+            data = response.json()
+
+        except json.decoder.JSONDecodeError:
+            return {}
+            
+        return {'company': data}
+
+    if request.method == 'POST':
+        try:
+            stock = request.POST['add-stock']
+            response = requests.get(API_URL + "/stock/{}/company".format(stock))
+            data = response.json()
+            MOCK_DATA.append(data)
+            return HTTPFound(location=request.route_url('portfolio'))
+
+        except:
+            pass
+
+    else:
+        raise HTTPNotFound()
 
 
 @view_config(route_name='detail', renderer='../templates/detail.jinja2')
 def detail_view(request):
-    return {}
+    """displays stock details on an individual stock to the detail page"""
+    try:
+        symbol = request.matchdict['symbol']
+    
+    except KeyError:
+        return HTTPNotFound()
+
+    for company in MOCK_DATA:
+        if company['symbol'] == symbol:
+            return {'company': company}
 
 
 @view_config(route_name='404', renderer='../templates/404.jinja2')
 def stock_404_view(request):
+    """returns 404 page"""
     return {}    
         
 

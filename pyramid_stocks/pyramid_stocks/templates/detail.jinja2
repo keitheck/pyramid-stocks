@@ -2,6 +2,22 @@
 
 {% block content %}
 
-<span>Stock Info Here</span>
+<ul>
+    <li>
+        <p>------------------------------------------</p>
+        <p></p>
+        <h3>{{company.companyName}}</h2>
+        <p>SYMBOL: {{company.symbol}}</p>
+        <p>EXCHANGE: {{company.exchange}}</p>
+        <p>WEBSITE: {{company.website}}</p>
+        <p>CEO: {{company.CEO}}</p>
+        <p>INDUSTRY: {{company.industry}}</p>
+        <p>SECTOR: {{company.sector}}</p>
+        <p>ISSUE-TYPE: {{company.issueType}}</p>
+        <p>DESCRIPTION: {{company.description}}</p>
+        <p></p>
+        <p>------------------------------------------</p>
+    </li>
+</ul>
 
 {% endblock content %}

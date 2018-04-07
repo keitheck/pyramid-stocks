@@ -1,5 +1,16 @@
 MOCK_DATA = [
     {
+        "symbol": "CAL",
+        "companyName": "Callahan Auto Parts, Inc.",
+        "exchange": "Sandusky Ohio Stock Exchange",
+        "industry": "Auto Parts",
+        "website": "www.supind.com",
+        "description": "We make car parts for the american worker, cuz thats what i am.",
+        "CEO": "Ray Zalinsky",
+        "issueType": "bs",
+        "sector": "Cah Parts"
+    },
+    {
         "symbol": "GE",
         "companyName": "General Electric Company",
         "exchange": "New York Stock Exchange",
@@ -93,20 +104,9 @@ MOCK_DATA = [
         "exchange": "New York Stock Exchange",
         "industry": "Money Center Banks",
         "website": "www.bankofamerica.com",
-        "description": "Conmen and crooks taking your cash.",
+        "description": "Con men and crooks, taking your cash.",
         "CEO": "Joe Schmoe",
         "issueType": "cs",
         "sector": "Financial"
-    },
-    {
-        "symbol": "SUP",
-        "companyName": "Superior Industries International, Inc.",
-        "exchange": "New York Stock Exchange",
-        "industry": "Auto Parts",
-        "website": "www.supind.com",
-        "description": "We make car parts for the american worker, cuz thats what i am.",
-        "CEO": "Dan Aykroyd",
-        "issueType": "bs",
-        "sector": "Consumer Goods"
-    }    
+    }  
 ]

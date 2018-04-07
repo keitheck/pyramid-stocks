@@ -1,5 +1,37 @@
 {% extends "base.jinja2" %}
 
 {% block content %}
-<p>add stock here</p>
+
+<form action="{{request.route_url('stock-add')}}" method="GET">
+    <p>Enter stock symbol to search for company information:</p>
+    <input type="text" name="symbol" placeholder="stock symbol">
+    <button type="submit">Search</button>
+</form>
+
+{% if company %}
+<ul>
+    <li>
+        <p>------------------------------------------</p>
+        <p></p>
+        <h3>{{company.companyName}}</h2>
+        <p>SYMBOL: {{company.symbol}}</p>
+        <p>EXCHANGE: {{company.exchange}}</p>
+        <p>WEBSITE: {{company.website}}</p>
+        <p>CEO: {{company.CEO}}</p>
+        <p>INDUSTRY: {{company.industry}}</p>
+        <p>SECTOR: {{company.sector}}</p>
+        <p>ISSUE-TYPE: {{company.issueType}}</p>
+        <p>DESCRIPTION: {{company.description}}</p>
+        <p></p>
+        <p>------------------------------------------</p>
+    </li>
+</ul>
+<form action="{{request.route_url('stock-add')}}" method="POST">
+    <input type="text" name="add-stock" placeholder="test" value="{{company.symbol}}">
+    <button type="submit">Add to my Portfolio</button>
+</form>
+{% endif %}
+
+
 {% endblock content %}
+

@@ -5,6 +5,7 @@ body {
 	font-size: 16px;
 	margin: 0px auto;
 	width:80%;
+	font-family: 'Roboto', sans-serif;
 }
 
 header {
@@ -12,19 +13,36 @@ header {
 	padding: 20px 10px;
 }
 
+p {
+	margin: 8px 0px;
+}
+
 h1 {
 	font-size: 2em;
-	color: rgb(18, 72, 116)
+	color: rgb(18, 72, 116);
+	margin: 8px 0px;
 }
 
 h2 {
 	font-size: 1.5em;
-	color: rgb(18, 72, 116)
+	color: rgb(225, 241, 255);
+	margin: 8px 0px;
+}
+
+h3 {
+	font-size: 1.5em;
+	color: rgb(255, 157, 52);
+	
+}
+
+h4 {
+	color: rgb(74, 222, 1);
+	font-size: 1.3em;
 }
 
 a {
     color: rgb(255, 255, 255);
-	text-decoration-line: underline	
+	text-decoration-line: none	
 }
 
 nav li {
@@ -39,4 +57,15 @@ nav li {
 
 #portfolio_div {
 	display: inline-block
-)}
+}
+
+.blink_me {
+	float: right;
+	animation: blinker 1s linear infinite;
+  }
+  
+  @keyframes blinker {
+	50% {
+	  opacity: 0;
+	}
+  }
