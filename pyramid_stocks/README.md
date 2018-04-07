@@ -1,4 +1,4 @@
-#Pyramid Stocks App
+# Pyramid Stocks App
 
 **Author**: Keith Eckert 
 **Version**: 0.0.2
