@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{request.static_url('pyramid_stocks:static/base/reset.css')}}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="{{request.static_url('pyramid_stocks:static/base/base.css')}}">
+    <link rel="stylesheet" href="{{request.static_url('pyramid_stocks:static/layout/layout.css')}}">
+
+    <title>Pyramid Stocks</title>
+</head>
+<header>
+<h1>Pyramid Stocks App</h1>
+<h3>Python 401 | Keith Eckert</h3>
+    <div class="blink_me">
+    <h4>GET RICH QUICK!<h4>
+    </div>
+</header>
+<body>
+    <nav>
+      <ul>
+        <li><a href="{{request.route_url('home')}}">| HOME </a></li>
+        <li><a href="{{request.route_url('portfolio')}}">| PORTFOLIO </a></li>
+        <li><a href="{{request.route_url('stock-add')}}">| ADD STOCK </a></li>  
+        <li><a href="{{request.route_url('auth')}}">| LOGIN-REGISTER |</a></li>
+      </ul>  
+    </nav>
+    <div id="block-content">
+    {% block content %}
+
+    {% endblock content %}
+    </div>
+
+  
+</body>
+</html>

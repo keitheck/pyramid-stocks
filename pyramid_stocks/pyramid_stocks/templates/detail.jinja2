@@ -2,13 +2,6 @@
 
 {% block content %}
 
-<form action="{{request.route_url('stock-add')}}" method="GET">
-    <p>Enter stock symbol to search for company information:</p>
-    <input type="text" name="symbol" placeholder="stock symbol">
-    <button type="submit">Search</button>
-</form>
-
-{% if company %}
 <ul>
     <li>
         <p>------------------------------------------</p>
@@ -26,12 +19,5 @@
         <p>------------------------------------------</p>
     </li>
 </ul>
-<form action="{{request.route_url('stock-add')}}" method="POST">
-    <input type="text" name="add-stock" placeholder="test" value="{{company.symbol}}">
-    <button type="submit">Add to my Portfolio</button>
-</form>
-{% endif %}
-
 
 {% endblock content %}
-
