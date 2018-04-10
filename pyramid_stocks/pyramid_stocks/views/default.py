@@ -2,6 +2,10 @@ from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.view import view_config
 from ..sample_data import MOCK_DATA
+from sqlalchemy.exc import DBAPIError
+from ..models import My_stocks
+from ..models import Account
+from . import DB_ERR_MSG
 import json
 import requests
 
@@ -23,10 +27,20 @@ def home_view(request):
     renderer='../templates/portfolio.jinja2',
     request_method='GET')
 def portfolio_view(request):
-    """Returns user portfolio data""" 
-    return {
-        'companies': MOCK_DATA
-        }
+    """Returns user portfolio data"""
+    try:
+        query = request.dbsession.query(My_stocks)
+        all_stocks = query.all()
+
+    except DBAPIError:
+        return DBAPIError(DB_ERR_MSG, content_type='text/plain', status=500)
+
+    return {'companies': all_stocks}    
+
+
+    # return {
+    #     'companies': MOCK_DATA
+    #     }
 
 
 @view_config(
@@ -77,14 +91,32 @@ def stock_add_view(request):
 
     if request.method == 'POST':
         try:
-            stock = request.POST['add-stock']
+            # stock = request.POST['add-stock']
+            stock = request.POST['symbol']
             response = requests.get(API_URL + "/stock/{}/company".format(stock))
-            data = response.json()
-            MOCK_DATA.append(data)
-            return HTTPFound(location=request.route_url('portfolio'))
+            
+            response = response.json()
+            # MOCK_DATA.append(data)
+        except KeyError:
+            return HTTPNotFound()
 
-        except:
-            pass
+            info = request.dbsession.query(My_stocks)
+        try:    
+            record = info.filter(My_stocks.symbol == symbol).first()
+            record.symbol = response['symbol']
+            record.companyName = response['exchange']
+            record.exchange = response['exchange']
+            record.industry = response['industry']
+            record.description = response['description']
+            record.CEO = response['CEO']
+            record.issueType = response['issueType']
+            record.sector = response['sector']
+            record.website = response['website']
+
+        except KeyError:
+            request.dbsession.add(My_stocks(**response))
+
+        return HTTPFound(location=request.route_url('portfolio'))
 
     else:
         raise HTTPNotFound()
@@ -95,7 +127,7 @@ def detail_view(request):
     """displays stock details on an individual stock to the detail page"""
     try:
         symbol = request.matchdict['symbol']
-    
+
     except KeyError:
         return HTTPNotFound()
 
