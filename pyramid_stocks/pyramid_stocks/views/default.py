@@ -2,6 +2,10 @@ from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.view import view_config
 from ..sample_data import MOCK_DATA
+from sqlalchemy.exc import DBAPIError
+from ..models import My_stocks
+from ..models import Account
+from . import DB_ERR_MSG
 import json
 import requests
 
@@ -23,10 +27,20 @@ def home_view(request):
     renderer='../templates/portfolio.jinja2',
     request_method='GET')
 def portfolio_view(request):
-    """Returns user portfolio data""" 
-    return {
-        'companies': MOCK_DATA
-        }
+    """Returns user portfolio data"""
+    try:
+        query = request.dbsession.query(My_stocks)
+        all_stocks = query.all()
+
+    except DBAPIError:
+        return DBAPIError(DB_ERR_MSG, content_type='text/plain', status=500)
+
+    return {'companies': all_stocks}    
+
+
+    # return {
+    #     'companies': MOCK_DATA
+    #     }
 
 
 @view_config(
@@ -79,15 +93,19 @@ def stock_add_view(request):
         try:
             stock = request.POST['add-stock']
             response = requests.get(API_URL + "/stock/{}/company".format(stock))
-            data = response.json()
-            MOCK_DATA.append(data)
+            
+            response = response.json()
+             
+        except KeyError:
+            return HTTPNotFound()
+
+        if request.dbsession.query(My_stocks).filter(My_stocks.symbol == stock).count(): 
             return HTTPFound(location=request.route_url('portfolio'))
 
-        except:
-            pass
+        else:
+            request.dbsession.add(My_stocks(**response))
 
-    else:
-        raise HTTPNotFound()
+    return HTTPFound(location=request.route_url('portfolio'))
 
 
 @view_config(route_name='detail', renderer='../templates/detail.jinja2')
@@ -95,12 +113,14 @@ def detail_view(request):
     """displays stock details on an individual stock to the detail page"""
     try:
         symbol = request.matchdict['symbol']
-    
+
     except KeyError:
         return HTTPNotFound()
 
-    for company in MOCK_DATA:
-        if company['symbol'] == symbol:
+    query = request.dbsession.query(My_stocks)
+
+    for company in query.all():
+        if company.symbol == symbol:
             return {'company': company}
 
 

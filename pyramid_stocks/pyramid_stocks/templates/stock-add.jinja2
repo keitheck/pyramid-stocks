@@ -27,7 +27,7 @@
     </li>
 </ul>
 <form action="{{request.route_url('stock-add')}}" method="POST">
-    <input type="text" name="add-stock" placeholder="test" value="{{company.symbol}}">
+    <input type="hidden" name="add-stock" placeholder="test" value="{{company.symbol}}">
     <button type="submit">Add to my Portfolio</button>
 </form>
 {% endif %}
