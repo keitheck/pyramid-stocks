@@ -91,35 +91,21 @@ def stock_add_view(request):
 
     if request.method == 'POST':
         try:
-            # stock = request.POST['add-stock']
-            stock = request.POST['symbol']
+            stock = request.POST['add-stock']
             response = requests.get(API_URL + "/stock/{}/company".format(stock))
             
             response = response.json()
-            # MOCK_DATA.append(data)
+             
         except KeyError:
             return HTTPNotFound()
 
-            info = request.dbsession.query(My_stocks)
-        try:    
-            record = info.filter(My_stocks.symbol == symbol).first()
-            record.symbol = response['symbol']
-            record.companyName = response['exchange']
-            record.exchange = response['exchange']
-            record.industry = response['industry']
-            record.description = response['description']
-            record.CEO = response['CEO']
-            record.issueType = response['issueType']
-            record.sector = response['sector']
-            record.website = response['website']
+        if request.dbsession.query(My_stocks).filter(My_stocks.symbol == stock).count(): 
+            return HTTPFound(location=request.route_url('portfolio'))
 
-        except KeyError:
+        else:
             request.dbsession.add(My_stocks(**response))
 
-        return HTTPFound(location=request.route_url('portfolio'))
-
-    else:
-        raise HTTPNotFound()
+    return HTTPFound(location=request.route_url('portfolio'))
 
 
 @view_config(route_name='detail', renderer='../templates/detail.jinja2')
@@ -131,8 +117,10 @@ def detail_view(request):
     except KeyError:
         return HTTPNotFound()
 
-    for company in MOCK_DATA:
-        if company['symbol'] == symbol:
+    query = request.dbsession.query(My_stocks)
+
+    for company in query.all():
+        if company.symbol == symbol:
             return {'company': company}
 
 
