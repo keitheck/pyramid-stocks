@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="{{request.route_url('stock-add')}}" method="GET">
+<form action="{{request.route_url('stock')}}" method="GET">
     <input type="hidden" name="csrf_token" value="{{request.session.get_csrf_token()}}">
     <p>Enter stock symbol to search for company information:</p>
     <input type="text" name="symbol" placeholder="stock symbol">
@@ -27,7 +27,7 @@
         <p>------------------------------------------</p>
     </li>
 </ul>
-<form action="{{request.route_url('stock-add')}}" method="POST">
+<form action="{{request.route_url('stock')}}" method="POST">
     <input type="hidden" name="csrf_token" value="{{request.session.get_csrf_token()}}">
     <input type="hidden" name="add-stock" placeholder="test" value="{{company.symbol}}">
     <button type="submit">Add to my Portfolio</button>

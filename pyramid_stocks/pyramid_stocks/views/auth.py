@@ -1,7 +1,7 @@
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound, HTTPUnauthorized, HTTPBadRequest
 from pyramid.security import NO_PERMISSION_REQUIRED, remember, forget
-from sqlalchemy.exc import DBAPIError
+from sqlalchemy.exc import DBAPIError, IntegrityError
 from pyramid.view import view_config
 from ..models import My_stocks
 from ..models import Account
@@ -9,6 +9,7 @@ from . import DB_ERR_MSG
 import json
 import requests
 
+API_URL = 'https://api.iextrading.com/1.0'
 
 # @view_config(
 #     route_name='home', 
@@ -70,18 +71,22 @@ def register_view(request):
 
         try:
             instance = Account(
-                username = username,
-                email = email,
-                password = password,
+                username=username,
+                email=email,
+                password=password,
             )
 
             headers = remember(request, userid=instance.username)
             request.dbsession.add(instance)
+            request.dbsession.flush()
+
+        except IntegrityError:
+            raise HTTPNotFound('username already taken')
 
             return HTTPFound(location=request.route_url('portfolio'), headers=headers)
 
-        except DBAPIError:
-            return Response(DB_ERR_MSG, content_type='text/plain', status=500)
+        # except DBAPIError:
+        #     return Response(DB_ERR_MSG, content_type='text/plain', status=500)
 
     return HTTPNotFound()
 
@@ -92,7 +97,7 @@ def logout(request):
     return HTTPFound(location=request.route_url('home'), headers=headers)
 
 
-@view_config(route_name='stock-add', renderer='../templates/stock-add.jinja2')
+@view_config(route_name='stock', renderer='../templates/stock.jinja2')
 def stock_add_view(request):
     """Get and Post methods to display requested stock info and selectively add to portfolio"""
     if request.method == 'GET':

@@ -24,10 +24,11 @@
         <li><a href="{{request.route_url('home')}}">| HOME </a></li>
         {% if request.authenticated_userid %}
         <li><a href="{{request.route_url('portfolio')}}">| PORTFOLIO </a></li>
-        <li><a href="{{request.route_url('stock-add')}}">| ADD STOCK </a></li>
+        <li><a href="{{request.route_url('stock')}}">| ADD STOCK </a></li>
         <li><a href="{{request.route_url('logout')}}">| LOGOUT </a></li>
         {% else %}  
-        <li><a href="{{request.route_url('auth')}}">| LOGIN-REGISTER |</a></li>
+        <li><a href="{{request.route_url('auth')}}">| LOGIN </a></li>
+        <li><a href="{{request.route_url('auth')}}">| REGISTER |</a></li>
         {% endif %}
       </ul>  
     </nav>
