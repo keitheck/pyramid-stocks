@@ -16,7 +16,6 @@ from .meta import Base
 class My_stocks(Base):
     __tablename__ = 'stock_entries'
     id = Column(Integer, primary_key=True)
-    # account_id = Column(Text, ForeignKey('account.username'), nullable=False)
     symbol = Column(String)
     companyName = Column(String)
     exchange = Column(String)

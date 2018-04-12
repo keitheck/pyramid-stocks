@@ -1,4 +1,3 @@
-from sqlalchemy.orm import relationship
 from sqlalchemy import (
     Column,
     Integer,
@@ -13,7 +12,7 @@ from sqlalchemy import (
 from .meta import Base
 
 
-association_table = Table('association', Base.metadata,
-    Column('stock_id', Integer, ForeignKey('stock.id')),
-    Column('account_id', Integer, ForeignKey('account.id'))
+association_table = Table('association_table', Base.metadata,
+    Column('stock_id', Integer, ForeignKey('stock_entries.id')),
+    Column('account_id', Integer, ForeignKey('accounts.id'))
 )

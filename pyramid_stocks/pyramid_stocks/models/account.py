@@ -22,12 +22,12 @@ manager = bcrypt.BCRYPTPasswordManager()
 class Account(Base):
     __tablename__ = 'accounts'
     id = Column(Integer, primary_key=True)
+    stock_id = relationship('My_stocks', secondary=association_table, back_populates='account_id')
     password = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     username = Column(String, unique=True, nullable=False)
     registered_on = Column(DateTime, nullable=False)
     admin = Column(Boolean, nullable=False, default=False)
-    stock_id = relationship('My_stock', secondary=association_table, back_populates='account_id')
 
     def __init__(self, username, email, password, admin=False):
         self.username = username

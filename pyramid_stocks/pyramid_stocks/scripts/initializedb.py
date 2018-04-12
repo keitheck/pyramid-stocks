@@ -16,7 +16,7 @@ from ..models import (
     get_tm_session,
     )
 from ..models import My_stocks
-from ..models.account import Account
+from ..models import Account
 from ..models.association import association_table
 
 

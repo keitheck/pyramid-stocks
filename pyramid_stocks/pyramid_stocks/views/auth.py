@@ -12,14 +12,6 @@ import requests
 
 API_URL = 'https://api.iextrading.com/1.0'
 
-# @view_config(
-#     route_name='home', 
-#     renderer='../templates/base.jinja2',
-#     request_method='GET')
-# def home_view(request):
-#     """returns home page"""
-#     return {}
-
 
 @view_config(
     route_name='portfolio', 
@@ -28,13 +20,13 @@ API_URL = 'https://api.iextrading.com/1.0'
 def portfolio_view(request):
     """Returns user portfolio data"""
     try:
-        query = request.dbsession.query(My_stocks)
+        query = request.dbsession.query(Account)
         user_stocks = query.filter(Account.username == request.authenticated_userid).first()
 
     except DBAPIError:
         return DBAPIError(DB_ERR_MSG, content_type='text/plain', status=500)
 
-    return {'companies': user_stocks}    
+    return {'companies': user_stocks.stock_id}    
 
 
 @view_config(
@@ -72,7 +64,6 @@ def register_view(request):
 
         try:
             instance = Account(
-                account_id=request.authenticated_userid,
                 username=username,
                 email=email,
                 password=password,
@@ -125,15 +116,20 @@ def stock_add_view(request):
             response = requests.get(API_URL + "/stock/{}/company".format(stock))
             
             response = response.json()
-             
+     
         except KeyError:
             return HTTPNotFound()
+        query_stock = request.dbsession.query(My_stocks).filter(My_stocks.symbol == stock).first()
+        user_auth = request.dbsession.query(Account).filter(Account.username == request.authenticated_userid).first()
 
-        if request.dbsession.query(My_stocks).filter(My_stocks.symbol == stock).count(): 
+        if query_stock: 
+            query_stock.account_id.append(user_auth)
             return HTTPFound(location=request.route_url('portfolio'))
 
         else:
-            request.dbsession.add(My_stocks(**response))
+            new_stock = My_stocks(**response)
+            new_stock.account_id.append(user_auth)
+            request.dbsession.add(new_stock)
 
     return HTTPFound(location=request.route_url('portfolio'))
 
@@ -148,10 +144,11 @@ def detail_view(request):
         return HTTPNotFound()
 
     query = request.dbsession.query(My_stocks)
+    stock_detail = query.filter(My_stocks.symbol == stock_id).first()
 
-    for company in query.all():
-        if company.symbol == symbol:
-            return {'company': company}
+    for each in stock_detail.account_id:
+        if each.username == request.authenticated_userid:
+            return {'company': stock_detail}
 
 
 @view_config(route_name='404', renderer='../templates/404.jinja2')
