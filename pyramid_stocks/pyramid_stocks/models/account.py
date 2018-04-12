@@ -2,6 +2,8 @@ from .meta import Base
 from datetime import datetime as dt   
 from sqlalchemy.exc import DBAPIError
 from cryptacular import bcrypt
+from .association import association_table
+from sqlalchemy.orm import relationship
 
 
 from sqlalchemy import (
@@ -10,6 +12,7 @@ from sqlalchemy import (
     String,
     DateTime,
     Boolean,
+    ForeignKey,
 )
 
 
@@ -24,6 +27,7 @@ class Account(Base):
     username = Column(String, unique=True, nullable=False)
     registered_on = Column(DateTime, nullable=False)
     admin = Column(Boolean, nullable=False, default=False)
+    stock_id = relationship('My_stock', secondary=association_table, back_populates='account_id')
 
     def __init__(self, username, email, password, admin=False):
         self.username = username

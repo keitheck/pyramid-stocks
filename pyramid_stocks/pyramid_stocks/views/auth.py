@@ -5,6 +5,7 @@ from sqlalchemy.exc import DBAPIError, IntegrityError
 from pyramid.view import view_config
 from ..models import My_stocks
 from ..models import Account
+from ..models.association import association_table
 from . import DB_ERR_MSG
 import json
 import requests
@@ -28,12 +29,12 @@ def portfolio_view(request):
     """Returns user portfolio data"""
     try:
         query = request.dbsession.query(My_stocks)
-        all_stocks = query.all()
+        user_stocks = query.filter(Account.username == request.authenticated_userid).first()
 
     except DBAPIError:
         return DBAPIError(DB_ERR_MSG, content_type='text/plain', status=500)
 
-    return {'companies': all_stocks}    
+    return {'companies': user_stocks}    
 
 
 @view_config(
@@ -71,6 +72,7 @@ def register_view(request):
 
         try:
             instance = Account(
+                account_id=request.authenticated_userid,
                 username=username,
                 email=email,
                 password=password,
@@ -83,12 +85,13 @@ def register_view(request):
         except IntegrityError:
             raise HTTPNotFound('username already taken')
 
-            return HTTPFound(location=request.route_url('portfolio'), headers=headers)
+        return HTTPFound(location=request.route_url('portfolio'), headers=headers)
 
         # except DBAPIError:
         #     return Response(DB_ERR_MSG, content_type='text/plain', status=500)
 
-    return HTTPNotFound()
+    # return HTTPNotFound()
+    return HTTPFound(location=request.route_url('auth'))
 
 
 @view_config(route_name='logout')
