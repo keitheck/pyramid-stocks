@@ -11,7 +11,7 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
 requires = [
     'cryptacular',
     'plaster_pastedeploy',
-    'psycopg2',
+    'psycopg2-binary',
     'pyramid >= 1.9a',
     'pyramid_debugtoolbar',
     'pyramid_jinja2',
@@ -25,7 +25,7 @@ requires = [
 ]
 
 tests_require = [
-    'WebTest >= 1.3.1',  # py3 compat
+    'WebTest >= 1.3.1',
     'pytest',
     'pytest-cov',
 ]

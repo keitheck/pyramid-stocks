@@ -1,8 +1,13 @@
+from .association import association_table
+from sqlalchemy.orm import relationship
 from sqlalchemy import (
     Column,
     Integer,
     String,
     DateTime,
+    Index,
+    ForeignKey,
+    Text,
 )
 
 from .meta import Base
@@ -20,6 +25,7 @@ class My_stocks(Base):
     issueType = Column(String)
     sector = Column(String)
     website = Column(String)
+    account_id = relationship('Account', secondary=association_table, back_populates='stock_id')
 
 
 # Index('my_index', MyModel.name, unique=True, mysql_length=255)
