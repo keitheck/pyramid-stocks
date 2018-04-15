@@ -59,6 +59,9 @@ def register_view(request):
             email = request.POST['email']
             password = request.POST['password']
 
+        except IntegrityError:
+            raise HTTPNotFound('username already taken')
+
         except KeyError:
             return HTTPBadRequest()
 
@@ -74,7 +77,8 @@ def register_view(request):
             request.dbsession.flush()
 
         except IntegrityError:
-            raise HTTPNotFound('username already taken')
+            # raise HTTPNotFound('username already taken')
+            return Response(DB_ERR_MSG, content_type='text/plain', status=500)
 
         return HTTPFound(location=request.route_url('portfolio'), headers=headers)
 
@@ -88,7 +92,7 @@ def register_view(request):
 @view_config(route_name='logout')
 def logout(request):
     headers = forget(request)
-    return HTTPFound(location=request.route_url('home'), headers=headers)
+    return HTTPFound(location=request.route_url('auth'), headers=headers)
 
 
 @view_config(route_name='stock', renderer='../templates/stock.jinja2')
@@ -137,6 +141,7 @@ def stock_add_view(request):
 @view_config(route_name='detail', renderer='../templates/detail.jinja2')
 def detail_view(request):
     """displays stock details on an individual stock to the detail page"""
+    # import pdb ; pdb.set_trace()
     try:
         symbol = request.matchdict['symbol']
 
@@ -144,7 +149,7 @@ def detail_view(request):
         return HTTPNotFound()
 
     query = request.dbsession.query(My_stocks)
-    stock_detail = query.filter(My_stocks.symbol == stock_id).first()
+    stock_detail = query.filter(My_stocks.symbol == symbol).first()
 
     for each in stock_detail.account_id:
         if each.username == request.authenticated_userid:
