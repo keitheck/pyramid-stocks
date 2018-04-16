@@ -6,7 +6,7 @@ services:
   - postgresql
 
 before_script:
-  - psql -c "create database pyramid-stocks;" -U postgres
+  - psql -c "create database pyramid_test;" -U postgres
 
 #set some environment variables
 env:
@@ -21,4 +21,4 @@ script:
   - pytest
 
 notifications:
-  - email: false
+  email: false
