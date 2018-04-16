@@ -3,6 +3,8 @@
 **Author**: Keith Eckert 
 **Version**: 0.0.2
 
+visit deployed site: https://pyramid-app.herokuapp.com/
+
 ## Overview
 This is a financial stock performance app that allows users to log in, log out, add and remove stocks from their portfolio, motitor performance, and analize trends. Utilizes Python Pyramid framework and machine learning libraries.
 
