@@ -21,4 +21,4 @@ script:
   - pytest
 
 notifications:
-  email: false
+  - email: false
