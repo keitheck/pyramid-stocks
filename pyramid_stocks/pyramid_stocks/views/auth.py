@@ -19,6 +19,7 @@ API_URL = 'https://api.iextrading.com/1.0'
     request_method='GET')
 def portfolio_view(request):
     """Returns user portfolio data"""
+    # import pdb; pdb.set_trace()
     try:
         query = request.dbsession.query(Account)
         user_stocks = query.filter(Account.username == request.authenticated_userid).first()
@@ -161,5 +162,3 @@ def stock_404_view(request):
     """returns 404 page"""
     return {}    
         
-
-
