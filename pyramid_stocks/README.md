@@ -25,3 +25,9 @@ This is a financial stock performance app that allows users to log in, log out, 
 - 4.6.18 -- Added stock lookup page with add to portfolio option.
 - 4.6.18 -- Tests added
 - 4.7.18 -- Tests added
+- 4.9.19 -- Persistence
+- 4.10.18 -- Authentication added, multiple users
+- 4.11.18 -- PostgreSQL relational db integrated
+- 4.12.18 -- Travis CI implemented
+- 4.12.18 -- Deployed to Heroku
+- 4.15.18 -- Tests added
